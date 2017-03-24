@@ -39,7 +39,7 @@ public class DashboadActivity extends AppCompatActivity {
 
 
         gridView.setAdapter(new TilesAdapter(tiles,getBaseContext()));
-        //gridView.setLi
+        //gridView.setLiff
         listView.setAllowReordering(true);
 
         listView.isAllowReordering(); // true
