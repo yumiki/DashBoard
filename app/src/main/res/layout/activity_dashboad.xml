@@ -48,8 +48,8 @@
             android:layout_height="171dp"
             android:layout_column="0"
             android:layout_columnSpan="2"
-            android:layout_row="0"
             android:layout_marginBottom="11dp"
+            android:layout_row="0"
             android:text="Button11" />
 
 
@@ -85,10 +85,11 @@
             android:layout_height="171dp"
             android:layout_marginTop="11dp"
             android:layout_marginRight="11dp"
-            android:layout_marginBottom="14dp"
+            android:layout_marginBottom="11dp"
             android:text="Button" />
 
-        <Button
+        <include
+            layout="@layout/velib_tile_layout"
             android:id="@+id/button12"
             android:layout_column="2"
             android:layout_row="0"
