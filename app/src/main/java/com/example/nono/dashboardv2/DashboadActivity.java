@@ -22,6 +22,7 @@ import com.felipecsl.asymmetricgridview.library.widget.AsymmetricGridView;
 import com.felipecsl.asymmetricgridview.library.widget.AsymmetricGridViewAdapter;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import rx.android.schedulers.AndroidSchedulers;
@@ -35,14 +36,17 @@ public class DashboadActivity extends AppCompatActivity {
         View velibTile = findViewById(R.id.velibTile);
         TextView textView= (TextView) velibTile.findViewById(R.id.velibTitle);
 
-        textView.setVisibility(View.GONE);
-
-        ApiManager.apiManagerDist.getVelib()
+        ApiManager.apiManagerDist.getVelib(
+                "stations-velib-disponibilites-en-temps-reel",
+                "20 Rue Guillaume Bertrand",
+                Arrays.asList("banking","bonus","status","contract_name"))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         velib -> {//TODO
-                            Log.d("Custom","On next1");
+                            Log.d("Custom","On nextO1");
+                            Log.d("Custom",velib.getRecords().get(0).getDatasetid());
+                            Log.d("Custom","jkl");
                             Toast.makeText(this,"FFF", Toast.LENGTH_SHORT).show();
                             Snackbar.make(velibTile,"Test",Snackbar.LENGTH_LONG).show();
                             //Snackbar.make(mOutput,"Next:"+authToken.getValue(),Snackbar.LENGTH_LONG).show();
@@ -52,17 +56,19 @@ public class DashboadActivity extends AppCompatActivity {
                                     .show();
                             //toNextTheActivity(User.EMAIL,User.PASSWORD,HomepageActivity.class);
                             textView.setText(velib.getRecords().get(0).getDatasetid());
-                            textView.setVisibility(View.VISIBLE);
 
                         },
                         throwable -> {
                             throwable.printStackTrace();
+                            if(throwable.getMessage().contains("200"))
+                                Snackbar.make(velibTile,"A mon avis ",Snackbar.LENGTH_INDEFINITE)
+                                        //.setAction("Register",view -> toNextTheActivity(login,password,SignupActivity.class))
+                                        .show();
                             if(throwable.getMessage().contains("400"))
                                 Snackbar.make(velibTile,"Vous n'avez peut être pas de compte",Snackbar.LENGTH_INDEFINITE)
                                         //.setAction("Register",view -> toNextTheActivity(login,password,SignupActivity.class))
                                         .show();
                         });
-
 
     }
 }

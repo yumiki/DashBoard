@@ -22,6 +22,7 @@ import retrofit.http.Multipart;
 import retrofit.http.POST;
 import retrofit.http.Part;
 import retrofit.http.Path;
+import retrofit.http.Query;
 import retrofit.mime.TypedFile;
 import rx.Observable;
 import rx.Observer;
@@ -39,6 +40,11 @@ public class ApiManager {
         //Meteo getMeteo(@Path("id") int id);
         @GET("/search/?dataset=stations-velib-disponibilites-en-temps-reel&q=20+Rue+Guillaume+Bertrand&facet=banking&facet=bonus&facet=status&facet=contract_name")
         Observable<Velib> getVelib();
+
+        @GET("/search/")
+        Observable<Velib> getVelib(@Query("dataset") String dataset,
+                                   @Query("q") String address,
+                                   @Query("facet")List<String> facets);
     }
 
     private static final String ENDPOINT_LOCAL = "http://192.168.0.11";
