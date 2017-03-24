@@ -1,16 +1,22 @@
 package com.example.nono.dashboardv2;
 
 import android.database.DataSetObserver;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.GridLayout;
 import android.widget.GridView;
 import android.widget.ListAdapter;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.nono.dashboardv2.data.Tile;
+import com.example.nono.dashboardv2.util.ApiManager;
 import com.felipecsl.asymmetricgridview.library.Utils;
 import com.felipecsl.asymmetricgridview.library.widget.AsymmetricGridView;
 import com.felipecsl.asymmetricgridview.library.widget.AsymmetricGridViewAdapter;
@@ -18,30 +24,45 @@ import com.felipecsl.asymmetricgridview.library.widget.AsymmetricGridViewAdapter
 import java.util.ArrayList;
 import java.util.List;
 
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
+
 public class DashboadActivity extends AppCompatActivity {
-
-    GridView gridView;
-    AsymmetricGridView listView;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboad);
-        List<Tile> tiles = new ArrayList<>();
+        View velibTile = findViewById(R.id.velibTile);
+        TextView textView= (TextView) velibTile.findViewById(R.id.velibTitle);
 
-        for(int i=0;i<10;i++)
-            tiles.add(new Tile());
+        textView.setVisibility(View.GONE);
 
-        gridView = (GridView) findViewById(R.id.grid_view);
-        listView = (AsymmetricGridView) findViewById(R.id.listView);
+        ApiManager.apiManagerDist.getVelib()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        velib -> {//TODO
+                            Log.d("Custom","On next1");
+                            Toast.makeText(this,"FFF", Toast.LENGTH_SHORT).show();
+                            Snackbar.make(velibTile,"Test",Snackbar.LENGTH_LONG).show();
+                            //Snackbar.make(mOutput,"Next:"+authToken.getValue(),Snackbar.LENGTH_LONG).show();
 
-        listView.setRequestedColumnWidth(Utils.dpToPx(this, 120));
+                            Snackbar.make(velibTile,"Connexion OK",Snackbar.LENGTH_INDEFINITE)
+                                    //.setAction("Homepage",view -> toNextTheActivity(login,password,HomepageActivity.class))
+                                    .show();
+                            //toNextTheActivity(User.EMAIL,User.PASSWORD,HomepageActivity.class);
+                            textView.setText(velib.getRecords().get(0).getDatasetid());
+                            textView.setVisibility(View.VISIBLE);
+
+                        },
+                        throwable -> {
+                            throwable.printStackTrace();
+                            if(throwable.getMessage().contains("400"))
+                                Snackbar.make(velibTile,"Vous n'avez peut être pas de compte",Snackbar.LENGTH_INDEFINITE)
+                                        //.setAction("Register",view -> toNextTheActivity(login,password,SignupActivity.class))
+                                        .show();
+                        });
 
 
-        gridView.setAdapter(new TilesAdapter(tiles,getBaseContext()));
-        //gridView.setLiff
-        listView.setAllowReordering(true);
-
-        listView.isAllowReordering(); // true
     }
 }

@@ -24,6 +24,7 @@ import retrofit.http.Part;
 import retrofit.http.Path;
 import retrofit.mime.TypedFile;
 import rx.Observable;
+import rx.Observer;
 
 /**
  * Created by nono on 24/03/2017.
@@ -37,7 +38,7 @@ public class ApiManager {
         //@GET("/api/formats/{id}")
         //Meteo getMeteo(@Path("id") int id);
         @GET("/search/?dataset=stations-velib-disponibilites-en-temps-reel&q=20+Rue+Guillaume+Bertrand&facet=banking&facet=bonus&facet=status&facet=contract_name")
-        Velib getVelib();
+        Observable<Velib> getVelib();
     }
 
     private static final String ENDPOINT_LOCAL = "http://192.168.0.11";
