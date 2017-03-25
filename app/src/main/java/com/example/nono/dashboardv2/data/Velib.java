@@ -33,12 +33,12 @@ public class Velib {
         String contract_name;
         String name;
         String bonus;
-        int bike_stands;
+        int bikeStands;
         int number;
-        String last_update;
-        int available_bike_stands;
+        String lastUpdate;
+        int availableBikeStands;
         boolean banking;
-        int available_bikes;
+        int availableBikes;
         String address;
         List<Double> position;
 
@@ -58,28 +58,28 @@ public class Velib {
             return bonus;
         }
 
-        public int getBike_stands() {
-            return bike_stands;
+        public int getBikeStands() {
+            return bikeStands;
         }
 
         public int getNumber() {
             return number;
         }
 
-        public String getLast_update() {
-            return last_update;
+        public String getLastUpate() {
+            return lastUpdate;
         }
 
-        public int getAvailable_bike_stands() {
-            return available_bike_stands;
+        public int getAvailableBikeStands() {
+            return availableBikeStands;
         }
 
         public boolean isBanking() {
             return banking;
         }
 
-        public int getAvailable_bikes() {
-            return available_bikes;
+        public int getAvailableBikes() {
+            return availableBikes;
         }
 
         public String getAddress() {
@@ -91,7 +91,63 @@ public class Velib {
         }
     }
 
-    public class Station{
+    public static class Station{
+        String status;
+        String name;
+        int bikeStands;
+        String lastUpdate;
+        int availableBikeStands;
+        boolean banking;
+        int availableBikes;
+        String address;
+        List<Double> position;
 
+        public Station(Field field) {
+            this.status = field.getStatus();
+            this.name = field.getName();
+            this.bikeStands = field.getBikeStands();
+            this.lastUpdate = field.getLastUpate();
+            this.availableBikeStands = field.getAvailableBikeStands();
+            this.banking = field.isBanking();
+            this.availableBikes = field.getAvailableBikes();
+            this.address = field.getAddress();
+            this.position = field.getPosition();
+        }
+
+        public String getStatus() {
+            return status;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public int getBikeStands() {
+            return bikeStands;
+        }
+
+        public String getLastUpdate() {
+            return lastUpdate;
+        }
+
+        public int getAvailableBikeStands() {
+            return availableBikeStands;
+        }
+
+        public boolean isBanking() {
+            return banking;
+        }
+
+        public int getAvailableBikes() {
+            return availableBikes;
+        }
+
+        public String getAddress() {
+            return address;
+        }
+
+        public List<Double> getPosition() {
+            return position;
+        }
     }
 }

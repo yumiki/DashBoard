@@ -6,6 +6,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.nono.dashboardv2.DashboadActivity">
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        app:layout_scrollFlags="scroll|enterAlways"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+    </android.support.design.widget.AppBarLayout>
 
     <com.felipecsl.asymmetricgridview.library.widget.AsymmetricGridView
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -32,14 +45,15 @@
 
     <GridLayout
         android:id="@+id/grid_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_margin="40dp"
         android:columnCount="4"
         android:orientation="horizontal"
         android:rowCount="4"
-        android:visibility="visible"
         android:useDefaultMargins="true"
+        android:visibility="visible"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:context=".DashboadActivity">
 
         <include
@@ -49,8 +63,7 @@
             android:layout_height="171dp"
             android:layout_column="0"
             android:layout_columnSpan="2"
-            android:layout_row="0"
-            android:text="Button11" />
+            android:layout_row="0" />
 
 
         <Button
@@ -58,6 +71,8 @@
             android:layout_width="143dp"
             android:layout_height="143dp"
             android:layout_column="0"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="20dp"
             android:layout_row="1"
             android:text="Button" />
 
@@ -66,6 +81,7 @@
             android:layout_width="143dp"
             android:layout_height="143dp"
             android:layout_column="1"
+            android:layout_marginTop="20dp"
             android:layout_row="1"
             android:text="Button11" />
 
@@ -94,8 +110,7 @@
             android:layout_height="355dp"
             android:layout_column="3"
             android:layout_row="0"
-            android:layout_rowSpan="2"
-            android:layout_rowWeight="1" />
+            android:layout_rowSpan="2" />
 
     </GridLayout>
 

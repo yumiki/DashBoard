@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="#223445">
+    android:background="#224567">
 
     <ImageView
         android:layout_width="match_parent"
@@ -14,17 +14,20 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
         <TextView
+            android:background="#224550"
+            android:layout_margin="3dp"
+            android:padding="15dp"
             android:id="@+id/velibTitle"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="75dp"
             android:textSize="30sp"
-            android:textColor="#FFFFFF"
             android:text="Stations Vélib"/>
 
         <android.support.v7.widget.RecyclerView
+            android:id="@+id/velibRv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:listItem="@layout/velib_tile_layout">
+            tools:listItem="@layout/velib_station_details">
 
         </android.support.v7.widget.RecyclerView>
     </LinearLayout>

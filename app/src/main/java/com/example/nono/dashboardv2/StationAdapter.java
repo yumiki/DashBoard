@@ -23,6 +23,11 @@ public class StationAdapter extends RecyclerView.Adapter<StationAdapter.StationV
     List<Velib.Station> stations;
     Context mContext;
 
+    public StationAdapter(List<Velib.Station> stations, Context mContext) {
+        this.stations = stations;
+        this.mContext = mContext;
+    }
+
     @Override
     public StationViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
@@ -45,34 +50,38 @@ public class StationAdapter extends RecyclerView.Adapter<StationAdapter.StationV
 
     public class StationViewHolder extends RecyclerView.ViewHolder {
 
-        //private final ImageView imageView;
         private final TextView stationName;
+        private final TextView stationAddresse;
+        private final TextView stationBikeAvailable;
 
         private Velib.Station currentStation;
 
         public StationViewHolder(final View itemView) {
             super(itemView);
 
-            //imageView = ((ImageView) itemView.findViewById(R.id.photo));
             stationName = (TextView) itemView.findViewById(R.id.station_name_tv);
+            stationAddresse = (TextView) itemView.findViewById(R.id.station_adresse_tv);
+            stationBikeAvailable = (TextView) itemView.findViewById(R.id.number_of_bike_stand_available);
 
-            /*
+
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     new AlertDialog.Builder(itemView.getContext())
-                            .setTitle("id photo:"+currentPhoto.getObjectId()+1)
-                            .setMessage("quantité:"+currentPhoto.getQuantity())
+                            .setTitle("Station :"+currentStation.getName())
+                            .setMessage("quantité:"+currentStation.getAvailableBikes())
                             .show();
                 }
             });
-            */
         }
 
 
         public void display(Velib.Station station, int position) {
             currentStation = station;
-            stationName.setText("");
+            stationName.setText(currentStation.getName());
+            stationAddresse.setText(currentStation.getAddress());
+
+            stationBikeAvailable.setText(currentStation.getAvailableBikeStands()+"");
         }
 
     }
