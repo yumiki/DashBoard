@@ -19,101 +19,124 @@
         app:layout_scrollFlags="scroll|enterAlways"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
     </android.support.design.widget.AppBarLayout>
-
-    <com.felipecsl.asymmetricgridview.library.widget.AsymmetricGridView
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/listView"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        />
-
-    <GridView
-        android:visibility="gone"
-        android:id="@+id/grid_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:numColumns="2"
-        android:orientation="vertical"
-        android:stretchMode="columnWidth"
-        android:horizontalSpacing="10dp"
-        android:verticalSpacing="10dp"
-        tools:context=".DashboadActivity"
-        tools:listitem="@layout/tiles_layout">
-
-    </GridView>
-
-
-    <GridLayout
-        android:id="@+id/grid_layout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:layout_margin="40dp"
-        android:columnCount="4"
-        android:orientation="horizontal"
-        android:rowCount="4"
-        android:useDefaultMargins="true"
-        android:visibility="visible"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:context=".DashboadActivity">
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        <LinearLayout
+            android:layout_alignParentEnd="true"
+            android:layout_marginBottom="15dp"
+            android:layout_marginEnd="15dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
-        <include
-            android:id="@+id/button0"
-            layout="@layout/tiles_layout"
-            android:layout_width="304dp"
-            android:layout_height="171dp"
-            android:layout_column="0"
-            android:layout_columnSpan="2"
-            android:layout_row="0" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Dernière Maj: _/_ _:_" />
 
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical" />
+        </LinearLayout>
 
-        <Button
-            android:id="@+id/button1"
-            android:layout_width="143dp"
-            android:layout_height="143dp"
-            android:layout_column="0"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="20dp"
-            android:layout_row="1"
-            android:text="Button" />
+        <GridView
+            android:visibility="gone"
+            android:id="@+id/grid_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:numColumns="2"
+            android:orientation="vertical"
+            android:stretchMode="columnWidth"
+            android:horizontalSpacing="10dp"
+            android:verticalSpacing="10dp"
+            tools:context=".DashboadActivity"
+            tools:listitem="@layout/tiles_layout">
 
-        <Button
-            android:id="@+id/button2"
-            android:layout_width="143dp"
-            android:layout_height="143dp"
-            android:layout_column="1"
-            android:layout_marginTop="20dp"
-            android:layout_row="1"
-            android:text="Button11" />
+        </GridView>
 
 
-        <Button
-            android:id="@+id/button11"
-            android:layout_width="304dp"
-            android:layout_height="171dp"
-            android:layout_column="0"
-            android:layout_columnSpan="2"
-            android:layout_row="2"
-            android:text="Button" />
+        <GridLayout
+            android:layout_marginTop="10dp"
+            android:id="@+id/grid_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:columnCount="4"
+            android:orientation="horizontal"
+            android:rowCount="4"
+            android:useDefaultMargins="true"
+            android:visibility="visible"
+            tools:context=".DashboadActivity">
 
-        <include
-            android:id="@+id/velibTile"
-            layout="@layout/velib_tile_layout"
-            android:layout_width="304dp"
-            android:layout_height="529dp"
-            android:layout_column="2"
-            android:layout_row="0"
-            android:layout_rowSpan="4" />
+            <include
+                android:id="@+id/button0"
+                layout="@layout/tiles_layout"
+                android:layout_width="304dp"
+                android:layout_height="171dp"
+                android:layout_column="0"
+                android:layout_columnSpan="2"
+                android:layout_row="0" />
 
-        <FrameLayout
-            android:id="@+id/mapTile"
-            android:layout_width="311dp"
-            android:layout_height="355dp"
-            android:layout_column="3"
-            android:layout_row="0"
-            android:layout_rowSpan="2"
-            tools:layout="@layout/fragment_map"/>
 
-    </GridLayout>
+            <Button
+                android:id="@+id/button1"
+                android:layout_width="143dp"
+                android:layout_height="143dp"
+                android:layout_column="0"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="20dp"
+                android:layout_row="1"
+                android:text="Button" />
+
+            <Button
+                android:id="@+id/button2"
+                android:layout_width="143dp"
+                android:layout_height="143dp"
+                android:layout_column="1"
+                android:layout_marginTop="20dp"
+                android:layout_row="1"
+                android:text="Button11" />
+
+
+            <Button
+                android:id="@+id/button11"
+                android:layout_width="304dp"
+                android:layout_height="171dp"
+                android:layout_column="0"
+                android:layout_columnSpan="2"
+                android:layout_row="2"
+                android:text="Button" />
+
+            <include
+                android:id="@+id/velibTile"
+                layout="@layout/velib_tile_layout"
+                android:layout_width="304dp"
+                android:layout_height="529dp"
+                android:layout_column="2"
+                android:layout_row="0"
+                android:layout_rowSpan="4" />
+
+            <FrameLayout
+                android:id="@+id/mapTile"
+                android:layout_width="311dp"
+                android:layout_height="355dp"
+                android:layout_column="3"
+                android:layout_row="0"
+                android:layout_rowSpan="2"
+                tools:layout="@layout/fragment_map" />
+
+        </GridLayout>
+
+        <com.felipecsl.asymmetricgridview.library.widget.AsymmetricGridView
+            android:id="@+id/listView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </RelativeLayout>
+
 
 
 </android.support.design.widget.CoordinatorLayout >

@@ -1,6 +1,5 @@
 package com.example.nono.dashboardv2;
 
-import android.database.DataSetObserver;
 import android.net.Uri;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -9,21 +8,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.GridLayout;
-import android.widget.GridView;
-import android.widget.ListAdapter;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.nono.dashboardv2.data.Tile;
 import com.example.nono.dashboardv2.data.Velib;
 import com.example.nono.dashboardv2.util.ApiManager;
-import com.felipecsl.asymmetricgridview.library.Utils;
-import com.felipecsl.asymmetricgridview.library.widget.AsymmetricGridView;
-import com.felipecsl.asymmetricgridview.library.widget.AsymmetricGridViewAdapter;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -33,7 +20,7 @@ import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-public class DashboadActivity extends AppCompatActivity implements MapFragment.OnFragmentInteractionListener {
+public class DashboadActivity extends AppCompatActivity implements MapTileFragment.OnFragmentInteractionListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +34,16 @@ public class DashboadActivity extends AppCompatActivity implements MapFragment.O
 
         StationAdapter stationAdapter = new StationAdapter(stationsData,getBaseContext());
         velibStationView.setAdapter(stationAdapter);
+
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.mapTile,new MapTileFragment(),"MapTile")
+                .addToBackStack("MapTile")
+                .commit();
+        //MapTileFragment frag = (MapTileFragment) getSupportFragmentManager().findFragmentByTag("MapTile");
+
+        //if(frag == null)
+         //   Snackbar.make(velibTile,"Il y a un problème 1",Snackbar.LENGTH_INDEFINITE).show();
+
 
         ApiManager.apiManagerDist.getVelib(
                 "stations-velib-disponibilites-en-temps-reel",
@@ -68,12 +65,14 @@ public class DashboadActivity extends AppCompatActivity implements MapFragment.O
                             //textView.setText(velib.getRecords().get(0).getDatasetid());
                             stationsData.add(station);
                             stationAdapter.notifyDataSetChanged();
+                            MapTileFragment frag = (MapTileFragment) getSupportFragmentManager().findFragmentByTag("MapTile");
+                            if(frag!=null)
+                                frag.setMarkerAtPosition(station.getPosition().get(0),station.getPosition().get(1));
 
                         },
                         throwable -> {
                             throwable.printStackTrace();
-                            if(throwable.getMessage().contains("200"))
-                                Snackbar.make(velibTile,"A mon avis ",Snackbar.LENGTH_INDEFINITE)
+                                Snackbar.make(velibTile,"Il y a un problème ",Snackbar.LENGTH_INDEFINITE)
                                         //.setAction("Register",view -> toNextTheActivity(login,password,SignupActivity.class))
                                         .show();
                             if(throwable.getMessage().contains("400"))
@@ -81,10 +80,6 @@ public class DashboadActivity extends AppCompatActivity implements MapFragment.O
                                         //.setAction("Register",view -> toNextTheActivity(login,password,SignupActivity.class))
                                         .show();
                         });
-
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.mapTile,new MapFragment())
-                .commit();
 
     }
 
