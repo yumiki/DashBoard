@@ -2,8 +2,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.nono.dashboardv2">
 
-    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-feature
+        android:glEsVersion="0x00020000"
+        android:required="true"
+        />
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
     <application
         android:allowBackup="true"
@@ -12,6 +18,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/MyMaterialTheme">
+        <meta-data
+            android:name="com.google.android.maps.v2.API_KEY"
+            android:value="AIzaSyBGLH-75qKnldCOn6XxE0PnnF8TnxADIpA"
+            />
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version"/>
         <activity android:name=".DashboadActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

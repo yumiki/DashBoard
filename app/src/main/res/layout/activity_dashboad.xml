@@ -104,13 +104,14 @@
             android:layout_row="0"
             android:layout_rowSpan="4" />
 
-        <Button
-            android:id="@+id/button13"
+        <FrameLayout
+            android:id="@+id/mapTile"
             android:layout_width="311dp"
             android:layout_height="355dp"
             android:layout_column="3"
             android:layout_row="0"
-            android:layout_rowSpan="2" />
+            android:layout_rowSpan="2"
+            tools:layout="@layout/fragment_map"/>
 
     </GridLayout>
 

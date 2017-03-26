@@ -1,6 +1,7 @@
 package com.example.nono.dashboardv2;
 
 import android.database.DataSetObserver;
+import android.net.Uri;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -32,7 +33,7 @@ import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-public class DashboadActivity extends AppCompatActivity {
+public class DashboadActivity extends AppCompatActivity implements MapFragment.OnFragmentInteractionListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,6 +81,15 @@ public class DashboadActivity extends AppCompatActivity {
                                         //.setAction("Register",view -> toNextTheActivity(login,password,SignupActivity.class))
                                         .show();
                         });
+
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.mapTile,new MapFragment())
+                .commit();
+
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
 
     }
 }
