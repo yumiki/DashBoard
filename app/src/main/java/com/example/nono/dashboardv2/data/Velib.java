@@ -36,9 +36,9 @@ public class Velib {
         int bikeStands;
         int number;
         String lastUpdate;
-        int availableBikeStands;
+        int available_bike_stands;
         boolean banking;
-        int availableBikes;
+        int available_bikes;
         String address;
         List<Double> position;
 
@@ -71,7 +71,7 @@ public class Velib {
         }
 
         public int getAvailableBikeStands() {
-            return availableBikeStands;
+            return available_bike_stands;
         }
 
         public boolean isBanking() {
@@ -79,7 +79,7 @@ public class Velib {
         }
 
         public int getAvailableBikes() {
-            return availableBikes;
+            return available_bikes;
         }
 
         public String getAddress() {
@@ -96,9 +96,9 @@ public class Velib {
         String name;
         int bikeStands;
         String lastUpdate;
-        int availableBikeStands;
+        int available_bike_stands;
         boolean banking;
-        int availableBikes;
+        int available_bikes;
         String address;
         List<Double> position;
 
@@ -107,9 +107,9 @@ public class Velib {
             this.name = field.getName();
             this.bikeStands = field.getBikeStands();
             this.lastUpdate = field.getLastUpate();
-            this.availableBikeStands = field.getAvailableBikeStands();
+            this.available_bike_stands = field.getAvailableBikeStands();
             this.banking = field.isBanking();
-            this.availableBikes = field.getAvailableBikes();
+            this.available_bikes = field.getAvailableBikes();
             this.address = field.getAddress();
             this.position = field.getPosition();
         }
@@ -131,7 +131,7 @@ public class Velib {
         }
 
         public int getAvailableBikeStands() {
-            return availableBikeStands;
+            return available_bike_stands;
         }
 
         public boolean isBanking() {
@@ -139,7 +139,7 @@ public class Velib {
         }
 
         public int getAvailableBikes() {
-            return availableBikes;
+            return available_bikes;
         }
 
         public String getAddress() {
