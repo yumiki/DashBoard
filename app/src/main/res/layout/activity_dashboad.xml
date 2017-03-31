@@ -50,6 +50,7 @@
         </LinearLayout>
 
         <GridView
+            android:visibility="gone"
             android:id="@+id/grid_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -158,14 +159,8 @@
 
         </GridLayout>
 
-        <com.felipecsl.asymmetricgridview.library.widget.AsymmetricGridView
-            android:id="@+id/listView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_alignParentTop="true"
-            android:layout_toEndOf="@+id/grid_view" />
-
     </RelativeLayout>
+
 
 
 </android.support.design.widget.CoordinatorLayout >
