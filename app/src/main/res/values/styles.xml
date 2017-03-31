@@ -4,6 +4,12 @@
 
         <item name="android:colorForeground">@color/common_google_signin_btn_text_dark_focused
         </item>
+        <item name="android:colorBackground">@color/background_material_dark</item>
+        <item name="android:textColorPrimary">@color/common_google_signin_btn_text_light_pressed</item>
+        <item name="android:textColorSecondaryInverse">@color/common_google_signin_btn_text_dark_pressed</item>
+        <item name="android:textColorSecondary">@color/common_google_signin_btn_text_light_pressed
+        </item>
+        <item name="android:textColorPrimaryInverse">@color/common_google_signin_btn_text_dark_pressed</item>
     </style>
     <!-- Base application theme. -->
     <style name="MyMaterialTheme.Base" parent="Theme.AppCompat.Light.DarkActionBar">
