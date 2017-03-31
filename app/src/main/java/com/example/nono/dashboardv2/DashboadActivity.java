@@ -87,6 +87,7 @@ public class DashboadActivity extends AppCompatActivity implements MapTileFragme
     @Override
     public void onResume() {
         super.onResume();
+        /*
         ApiManager.apiManagerDist.getVelib(
                 "stations-velib-disponibilites-en-temps-reel",
                 "20 Rue Guillaume Bertrand",
@@ -121,6 +122,7 @@ public class DashboadActivity extends AppCompatActivity implements MapTileFragme
                                         //.setAction("Register",view -> toNextTheActivity(login,password,SignupActivity.class))
                                         .show();
                         });
+                        */
 
         //Obtention de la référence du service
         locationManager = (LocationManager) this.getSystemService(LOCATION_SERVICE);
@@ -134,6 +136,8 @@ public class DashboadActivity extends AppCompatActivity implements MapTileFragme
             return;
         }
         location = locationManager.getLastKnownLocation(provider);
+
+        updateVelib();
 
         frag.setMarkerAtPosition(location.getLatitude(),location.getLongitude(),"My Loc");
 
@@ -189,6 +193,7 @@ public class DashboadActivity extends AppCompatActivity implements MapTileFragme
         Toast.makeText(this, msg.toString(), Toast.LENGTH_SHORT).show();
         Log.e("Test",location.toString());
         frag.setMarkerAtPosition(location.getLatitude(),location.getLongitude(),"My Loc");
+        updateVelib();
 
 
     }
@@ -212,5 +217,52 @@ public class DashboadActivity extends AppCompatActivity implements MapTileFragme
     @Override
     public void onStatusChanged(final String provider, final int status, final Bundle extras) {
         Log.e("Test",provider);
+    }
+
+
+    public void updateVelib(){
+        if(location!=null) {
+            String locationString = location.getLatitude() + "," + location.getLongitude() + ",500";
+
+            ApiManager.apiManagerDist.getVelib(
+                    "stations-velib-disponibilites-en-temps-reel",
+                    Arrays.asList("banking", "bonus", "status", "contract_name")
+                    , locationString)
+                    .flatMap(velib -> {
+                        return Observable.from(velib.getRecords());
+                    })
+                    .flatMap(record -> {
+                        Velib.Field fields = record.getFields();
+                        Velib.Station station = new Velib.Station(fields);
+                        return Observable.just(station);
+                    })
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(
+                            station -> {//TODO
+                                Log.d("Custom", "On nextO1");
+                                Log.d("Custom", station.getAddress());
+                                Log.d("Custom", "jkl");
+                                //Snackbar.make(velibTile,"Connexion OK",Snackbar.LENGTH_INDEFINITE).show();
+                                //textView.setText(velib.getRecords().get(0).getDatasetid());
+                                stationsData.add(station);
+                                if (frag != null)
+                                    frag.setMarkerAtPosition(station.getPosition().get(0), station.getPosition().get(1), "Velib");
+
+                            },
+                            throwable -> {
+                                throwable.printStackTrace();
+                                Snackbar.make(velibTile, "Il y a un problème ", Snackbar.LENGTH_INDEFINITE)
+                                        //.setAction("Register",view -> toNextTheActivity(login,password,SignupActivity.class))
+                                        .show();
+                                if (throwable.getMessage().contains("400"))
+                                    Snackbar.make(velibTile, "Vous n'avez peut être pas de compte", Snackbar.LENGTH_INDEFINITE)
+                                            //.setAction("Register",view -> toNextTheActivity(login,password,SignupActivity.class))
+                                            .show();
+                            }, () -> {
+                                stationAdapter.notifyDataSetChanged();
+
+                            });
+        }
     }
 }

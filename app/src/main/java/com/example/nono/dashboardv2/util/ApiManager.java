@@ -43,8 +43,13 @@ public class ApiManager {
 
         @GET("/search/")
         Observable<Velib> getVelib(@Query("dataset") String dataset,
+                                   @Query("facet")List<String> facets,
+                                   @Query("geofilter.distance")String geoFilterDistance);
+       @GET("/search/")
+        Observable<Velib> getVelib(@Query("dataset") String dataset,
                                    @Query("q") String address,
                                    @Query("facet")List<String> facets);
+
     }
 
     private static final String ENDPOINT_LOCAL = "http://192.168.0.11";
