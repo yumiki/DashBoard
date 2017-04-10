@@ -139,7 +139,8 @@ public class DashboadActivity extends AppCompatActivity implements MapTileFragme
 
         updateVelib();
 
-        frag.setMarkerAtPosition(location.getLatitude(),location.getLongitude(),"My Loc");
+        if(location!=null)
+            frag.setMarkerAtPosition(location.getLatitude(),location.getLongitude(),"My Loc");
 
         //Si le GPS est disponible, on s'y abonne
         if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
