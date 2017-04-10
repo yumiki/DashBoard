@@ -48,7 +48,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             tools:listitem="@layout/velib_station_details"
-            android:padding="28dp">
+            >
 
         </android.support.v7.widget.RecyclerView>
     </LinearLayout>
