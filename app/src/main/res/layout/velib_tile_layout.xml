@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="#224567">
+    android:background="#126B81">
 
     <ImageView
         android:layout_width="match_parent"
@@ -17,7 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="80sp"
             android:orientation="horizontal"
-            android:background="##126B81"
+
       >
             <TextView
                 android:layout_centerVertical="true"
