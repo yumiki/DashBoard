@@ -22,6 +22,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.nono.dashboardv2.data.Velib;
@@ -40,9 +41,10 @@ public class DashboadActivity extends AppCompatActivity implements MapTileFragme
     private LocationManager locationManager;
     private Location location;
     View velibTile;
+    View meteoTile;
+    View hourTile;
     StationAdapter stationAdapter;
     List<Velib.Station> stationsData;
-    Button mButton;
     MapTileFragment frag;
     ImageView renewVelibButton;
 
@@ -52,6 +54,8 @@ public class DashboadActivity extends AppCompatActivity implements MapTileFragme
         setContentView(R.layout.activity_dashboad);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         velibTile = findViewById(R.id.velibTile);
+        meteoTile = findViewById(R.id.meteoTile);
+        hourTile = findViewById(R.id.hourTile);
         RecyclerView velibStationView = (RecyclerView) velibTile.findViewById(R.id.velibRv);
 
         toolbar.setTitle("My Paris");
@@ -79,15 +83,14 @@ public class DashboadActivity extends AppCompatActivity implements MapTileFragme
         //if(frag == null)
         //   Snackbar.make(velibTile,"Il y a un problème 1",Snackbar.LENGTH_INDEFINITE).show();
 
-
-        mButton = (Button) findViewById(R.id.button1);
-        mButton.setOnClickListener(view -> {
-            Toast.makeText(getBaseContext(), "Blabal", Toast.LENGTH_SHORT).show();
-        });
-
         renewVelibButton.setOnClickListener(view -> {
             updateVelib();
         });
+
+
+        TextView hourTvTile = (TextView) hourTile.findViewById(R.id.tvHour);
+        TextView dateTvTile = (TextView) hourTile.findViewById(R.id.tvDate);
+
     }
 
     @Override

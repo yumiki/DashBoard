@@ -51,8 +51,6 @@ public class ApiManager {
         Observable<Velib> getCityMeteo(@Path("city") String city);
 
     }
-
-    private static final String ENDPOINT_LOCAL = "http://192.168.0.11";
     //https://opendata.paris.fr/api/records/1.0/search/?dataset=stations-velib-disponibilites-en-temps-reel&q=20+Rue+Guillaume+Bertrand&facet=banking&facet=bonus&facet=status&facet=contract_name
     private static final String ENDPOINT_DIST = "https://opendata.paris.fr/api/records/1.0";
     private static final String ENDPOINT_METEO = "http://www.prevision-meteo.ch/services/json/";
@@ -70,8 +68,8 @@ public class ApiManager {
         }
     };
 
-    private static final RestAdapter restAdapter = new RestAdapter.Builder()
-            .setEndpoint(ENDPOINT_LOCAL)
+    private static final RestAdapter meteoRestAdapter = new RestAdapter.Builder()
+            .setEndpoint(ENDPOINT_METEO)
             .setConverter(new GsonConverter(gson))
             .setLogLevel(RestAdapter.LogLevel.FULL)
             .setRequestInterceptor(requestInterceptor)
@@ -110,6 +108,7 @@ public class ApiManager {
             })
             .build();
 
-    public static ApiManagerService apiManagerLocal = restAdapter.create(ApiManagerService.class);
     public static ApiManagerService apiManagerDist = restAdapterDist.create(ApiManagerService.class);
+    public static ApiManagerService apiMeteo = meteoRestAdapter.create(ApiManagerService.class);
+
 }

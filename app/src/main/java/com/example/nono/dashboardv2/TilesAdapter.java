@@ -51,7 +51,7 @@ public class TilesAdapter extends BaseAdapter {
             listViewHolder = new ViewHolder();
             view = layoutinflater.inflate(R.layout.tiles_layout, viewGroup, false);
             //listViewHolder.imageView = (TextView)view.findViewById(R.id.textView);
-            listViewHolder.imageView = (ImageView)view.findViewById(R.id.imageView);
+            //listViewHolder.imageView = (ImageView)view.findViewById(R.id.imageView);
             view.setTag(listViewHolder);
 
             //view.getLayoutParams().

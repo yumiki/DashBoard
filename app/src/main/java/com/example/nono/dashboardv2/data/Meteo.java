@@ -5,10 +5,15 @@ package com.example.nono.dashboardv2.data;
  */
 
 public class Meteo {
-    CurrentCondition currentCondition;
+    CityInfo city_info;
+    CurrentCondition current_condition;
 
     public CurrentCondition getCurrentCondition() {
-        return currentCondition;
+        return current_condition;
+    }
+
+    public CityInfo getCityInfo() {
+        return city_info;
     }
 
     public class CurrentCondition{
@@ -22,7 +27,7 @@ public class Meteo {
         double humidity;
         String condition;
         String condition_key;
-        String iconUrl;
+        String icon;
 
         public String getDate() {
             return date;
@@ -65,7 +70,15 @@ public class Meteo {
         }
 
         public String getIconUrl() {
-            return iconUrl;
+            return icon;
+        }
+    }
+
+    public class CityInfo{
+       String name;
+
+        public String getName() {
+            return name;
         }
     }
 }
