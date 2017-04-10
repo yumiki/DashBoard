@@ -15,27 +15,30 @@
         android:orientation="vertical">
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="75dp"
+            android:layout_height="80sp"
             android:orientation="horizontal"
-            android:background="#224550"
-            android:layout_margin="3dp"
-            android:padding="15dp">
+            android:background="##126B81"
+      >
             <TextView
                 android:layout_centerVertical="true"
                 android:id="@+id/velibTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:textSize="30sp"
-                android:text="Stations Vélib"/>
+                android:textSize="22sp"
+                android:text="Stations Vélib"
+                android:layout_margin="0dp"
+                android:padding="25dp" />
 
             <ImageView
                 android:layout_centerVertical="true"
                 android:id="@+id/renewVelib"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
                 android:src="@drawable/ic_renew"
                 android:layout_alignParentEnd="true"
+                android:layout_alignTop="@+id/velibTitle"
                 android:layout_marginEnd="5dp"
+                android:layout_margin="25dp"
                 />
         </RelativeLayout>
 
@@ -44,7 +47,8 @@
             android:id="@+id/velibRv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:listItem="@layout/velib_station_details">
+            tools:listItem="@layout/velib_station_details"
+            android:padding="28dp">
 
         </android.support.v7.widget.RecyclerView>
     </LinearLayout>
