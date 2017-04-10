@@ -261,7 +261,6 @@ public class DashboadActivity extends AppCompatActivity implements MapTileFragme
                                             .show();
                             }, () -> {
                                 stationAdapter.notifyDataSetChanged();
-
                             });
         }
     }
