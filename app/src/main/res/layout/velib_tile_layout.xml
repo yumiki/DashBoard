@@ -13,15 +13,32 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-        <TextView
-            android:background="#224550"
-            android:layout_margin="3dp"
-            android:padding="15dp"
-            android:id="@+id/velibTitle"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="75dp"
-            android:textSize="30sp"
-            android:text="Stations Vélib"/>
+            android:orientation="horizontal"
+            android:background="#224550"
+            android:layout_margin="3dp"
+            android:padding="15dp">
+            <TextView
+                android:layout_centerVertical="true"
+                android:id="@+id/velibTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textSize="30sp"
+                android:text="Stations Vélib"/>
+
+            <ImageView
+                android:layout_centerVertical="true"
+                android:id="@+id/renewVelib"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_renew"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="5dp"
+                />
+        </RelativeLayout>
+
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/velibRv"

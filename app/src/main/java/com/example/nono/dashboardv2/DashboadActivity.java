@@ -17,9 +17,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.nono.dashboardv2.data.Velib;
@@ -42,13 +44,18 @@ public class DashboadActivity extends AppCompatActivity implements MapTileFragme
     List<Velib.Station> stationsData;
     Button mButton;
     MapTileFragment frag;
+    ImageView renewVelibButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboad);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         velibTile = findViewById(R.id.velibTile);
         RecyclerView velibStationView = (RecyclerView) velibTile.findViewById(R.id.velibRv);
+
+        toolbar.setTitle("My Paris");
+        renewVelibButton = (ImageView) velibTile.findViewById(R.id.renewVelib);
 
         stationsData = new ArrayList<>();
 
@@ -76,6 +83,10 @@ public class DashboadActivity extends AppCompatActivity implements MapTileFragme
         mButton = (Button) findViewById(R.id.button1);
         mButton.setOnClickListener(view -> {
             Toast.makeText(getBaseContext(), "Blabal", Toast.LENGTH_SHORT).show();
+        });
+
+        renewVelibButton.setOnClickListener(view -> {
+            updateVelib();
         });
     }
 
@@ -222,6 +233,8 @@ public class DashboadActivity extends AppCompatActivity implements MapTileFragme
 
 
     public void updateVelib(){
+        renewVelibButton.setEnabled(false);
+        Snackbar.make(velibTile,"Velib update",Snackbar.LENGTH_SHORT).show();
         if(location!=null) {
             String locationString = location.getLatitude() + "," + location.getLongitude() + ",500";
 
@@ -261,6 +274,7 @@ public class DashboadActivity extends AppCompatActivity implements MapTileFragme
                                             //.setAction("Register",view -> toNextTheActivity(login,password,SignupActivity.class))
                                             .show();
                             }, () -> {
+                                renewVelibButton.setEnabled(true);
                                 stationAdapter.notifyDataSetChanged();
                             });
         }

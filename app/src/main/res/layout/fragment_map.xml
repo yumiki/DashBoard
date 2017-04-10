@@ -22,11 +22,39 @@
         map:uiZoomControls="true"
         />
 
-    <TextView
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_weight="6"
-    android:background="#224550"
-    android:text="@string/hello_blank_fragment" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="3dp"
+        android:layout_weight="6"
+        android:background="#224550"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/mapTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="Map"
+            android:textSize="15sp" />
+
+        <ImageView
+            android:id="@+id/velibMapButton"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="3dp"
+            android:src="@drawable/ic_bike" />
+
+        <ImageView
+            android:id="@+id/wifiMapButton"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignEnd="@id/velibMapButton"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="35dp"
+            android:src="@drawable/ic_wifi" />
+    </RelativeLayout>
 
 </LinearLayout>
