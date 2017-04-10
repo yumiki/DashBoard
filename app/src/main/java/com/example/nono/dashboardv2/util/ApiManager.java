@@ -33,9 +33,6 @@ import rx.Observer;
 
 public class ApiManager {
     public interface ApiManagerService{
-        @GET("/api/formats/{id}")
-        Meteo getMeteo(@Path("id") int id);
-
         //@GET("/api/formats/{id}")
         //Meteo getMeteo(@Path("id") int id);
         @GET("/search/?dataset=stations-velib-disponibilites-en-temps-reel&q=20+Rue+Guillaume+Bertrand&facet=banking&facet=bonus&facet=status&facet=contract_name")
@@ -50,11 +47,16 @@ public class ApiManager {
                                    @Query("q") String address,
                                    @Query("facet")List<String> facets);
 
+        @GET("/{city}")
+        Observable<Velib> getCityMeteo(@Path("city") String city);
+
     }
 
     private static final String ENDPOINT_LOCAL = "http://192.168.0.11";
     //https://opendata.paris.fr/api/records/1.0/search/?dataset=stations-velib-disponibilites-en-temps-reel&q=20+Rue+Guillaume+Bertrand&facet=banking&facet=bonus&facet=status&facet=contract_name
     private static final String ENDPOINT_DIST = "https://opendata.paris.fr/api/records/1.0";
+    private static final String ENDPOINT_METEO = "http://www.prevision-meteo.ch/services/json/";
+
 
     private static Gson gson = new GsonBuilder()
             .setDateFormat("yyyy-MM-dd'T'HH:mm:ssz")
