@@ -14,13 +14,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="00:00"
-            android:textSize="50sp"
+            android:textSize="40sp"
             android:textAlignment="center"/>
         <TextView
             android:id="@+id/tvDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Ven. 23 Mars 2017"
+            android:textSize="12sp"
             android:textAlignment="center"/>
     </LinearLayout>
 
