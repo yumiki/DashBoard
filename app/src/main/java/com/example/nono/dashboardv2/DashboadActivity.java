@@ -30,6 +30,7 @@ import com.example.nono.dashboardv2.util.ApiManager;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
 
 import rx.Observable;
@@ -90,6 +91,11 @@ public class DashboadActivity extends AppCompatActivity implements MapTileFragme
 
         TextView hourTvTile = (TextView) hourTile.findViewById(R.id.tvHour);
         TextView dateTvTile = (TextView) hourTile.findViewById(R.id.tvDate);
+
+        Calendar calendar = Calendar.getInstance();
+
+        hourTvTile.setText(calendar.get(Calendar.HOUR)+":"+calendar.get(Calendar.MINUTE));
+        dateTvTile.setText(calendar.get(Calendar.DAY_OF_MONTH)+" "+calendar.get(Calendar.MONTH)+" "+calendar.get(Calendar.YEAR));
 
     }
 
