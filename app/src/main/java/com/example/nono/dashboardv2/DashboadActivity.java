@@ -21,12 +21,14 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.nono.dashboardv2.data.Velib;
 import com.example.nono.dashboardv2.util.ApiManager;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -48,6 +50,9 @@ public class DashboadActivity extends AppCompatActivity implements MapTileFragme
     List<Velib.Station> stationsData;
     MapTileFragment frag;
     ImageView renewVelibButton;
+    TextView tempTv;
+    TextView cityTv;
+    ImageView iconWeather;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,8 +99,21 @@ public class DashboadActivity extends AppCompatActivity implements MapTileFragme
 
         Calendar calendar = Calendar.getInstance();
 
-        hourTvTile.setText(calendar.get(Calendar.HOUR)+":"+calendar.get(Calendar.MINUTE));
-        dateTvTile.setText(calendar.get(Calendar.DAY_OF_MONTH)+" "+calendar.get(Calendar.MONTH)+" "+calendar.get(Calendar.YEAR));
+        hourTvTile.setText(calendar.get(Calendar.HOUR) + ":" + calendar.get(Calendar.MINUTE));
+        dateTvTile.setText(calendar.get(Calendar.DAY_OF_MONTH) + " " + calendar.get(Calendar.MONTH) + " " + calendar.get(Calendar.YEAR));
+
+        iconWeather = (ImageView) meteoTile.findViewById(R.id.iconWeather);
+        tempTv = (TextView) meteoTile.findViewById(R.id.temp);
+        cityTv = (TextView) meteoTile.findViewById(R.id.city);
+
+        updateMeteo();
+
+        meteoTile.setOnClickListener(view -> {
+            updateMeteo();
+            Snackbar.make(velibTile, "Update Meteo", Snackbar.LENGTH_SHORT).show();
+        });
+
+        //gridLayout.setOrientation(GridLayout.HORIZONTAL);
 
     }
 
@@ -159,8 +177,8 @@ public class DashboadActivity extends AppCompatActivity implements MapTileFragme
 
         updateVelib();
 
-        if(location!=null)
-            frag.setMarkerAtPosition(location.getLatitude(),location.getLongitude(),"My Loc");
+        if (location != null)
+            frag.setMarkerAtPosition(location.getLatitude(), location.getLongitude(), "My Loc");
 
         //Si le GPS est disponible, on s'y abonne
         if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
@@ -208,12 +226,12 @@ public class DashboadActivity extends AppCompatActivity implements MapTileFragme
         //On affiche dans un Toat la nouvelle Localisation
         final StringBuilder msg = new StringBuilder("lat : ");
         msg.append(location.getLatitude());
-        msg.append( "; lng : ");
+        msg.append("; lng : ");
         msg.append(location.getLongitude());
 
         Toast.makeText(this, msg.toString(), Toast.LENGTH_SHORT).show();
-        Log.e("Test",location.toString());
-        frag.setMarkerAtPosition(location.getLatitude(),location.getLongitude(),"My Loc");
+        Log.e("Test", location.toString());
+        frag.setMarkerAtPosition(location.getLatitude(), location.getLongitude(), "My Loc");
         updateVelib();
 
 
@@ -222,7 +240,7 @@ public class DashboadActivity extends AppCompatActivity implements MapTileFragme
     @Override
     public void onProviderDisabled(final String provider) {
         //Si le GPS est désactivé on se désabonne
-        if("gps".equals(provider)) {
+        if ("gps".equals(provider)) {
             desabonnementGPS();
         }
     }
@@ -230,20 +248,37 @@ public class DashboadActivity extends AppCompatActivity implements MapTileFragme
     @Override
     public void onProviderEnabled(final String provider) {
         //Si le GPS est activé on s'abonne
-        if("gps".equals(provider)) {
+        if ("gps".equals(provider)) {
             abonnementGPS();
         }
     }
 
     @Override
     public void onStatusChanged(final String provider, final int status, final Bundle extras) {
-        Log.e("Test",provider);
+        Log.e("Test", provider);
     }
 
+    private void updateMeteo() {
+        ApiManager.apiMeteo.getCityMeteo("paris")
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(meteo -> {
+                            tempTv.setText(meteo.getCurrentCondition().getTmp() + " °C");
+                            cityTv.setText(meteo.getCityInfo().getName() + " - IDF ");
+                            Picasso.with(getBaseContext())
+                                    .load(meteo.getCurrentCondition().getIconUrl())
+                                    .fit()
+                                    .into(iconWeather);
+                            Log.e("Ludo", meteo.getCurrentCondition().getIconUrl());
+                        },
+                        throwable -> {
+                            Snackbar.make(velibTile, throwable.getMessage(), Snackbar.LENGTH_SHORT).show();
+                        });
+    }
 
-    public void updateVelib(){
+    public void updateVelib() {
         renewVelibButton.setEnabled(false);
-        Snackbar.make(velibTile,"Velib update",Snackbar.LENGTH_SHORT).show();
+        Snackbar.make(velibTile, "Velib update", Snackbar.LENGTH_SHORT).show();
         if(location!=null) {
             String locationString = location.getLatitude() + "," + location.getLongitude() + ",500";
 

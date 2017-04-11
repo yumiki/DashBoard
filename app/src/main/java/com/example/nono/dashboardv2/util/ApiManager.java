@@ -48,7 +48,7 @@ public class ApiManager {
                                    @Query("facet")List<String> facets);
 
         @GET("/{city}")
-        Observable<Velib> getCityMeteo(@Path("city") String city);
+        Observable<Meteo> getCityMeteo(@Path("city") String city);
 
     }
     //https://opendata.paris.fr/api/records/1.0/search/?dataset=stations-velib-disponibilites-en-temps-reel&q=20+Rue+Guillaume+Bertrand&facet=banking&facet=bonus&facet=status&facet=contract_name

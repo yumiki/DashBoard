@@ -17,6 +17,7 @@
             android:textSize="40sp"
             android:textAlignment="center"/>
         <TextView
+            android:layout_gravity="center_horizontal"
             android:id="@+id/tvDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
