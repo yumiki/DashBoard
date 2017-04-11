@@ -5,10 +5,13 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="2dp">
+    android:layout_marginLeft="28dp"
+    android:layout_marginRight="28dp"
+    android:layout_marginTop="15dp"
+    android:padding="0dp" >
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="590dp"
+        android:layout_height="60dp"
         android:orientation="vertical"
         android:background="#224550"
         android:layout_weight="1">
@@ -25,10 +28,10 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="10dp"
+        android:layout_height="60dp"
         android:orientation="vertical"
-        android:layout_marginStart="2dp"
+        android:layout_marginLeft="3dp"
         android:background="#224550"
         android:layout_weight="2">
         <TextView
