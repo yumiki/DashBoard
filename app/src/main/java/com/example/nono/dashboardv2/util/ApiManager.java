@@ -50,6 +50,10 @@ public class ApiManager {
         @GET("/{city}")
         Observable<Meteo> getCityMeteo(@Path("city") String city);
 
+        @GET("/lat={lat}lng={lng}")
+        Observable<Meteo> getLocationMeteo(@Path("lat") String latitude,
+                                           @Path("lng") String longitude);
+
     }
     //https://opendata.paris.fr/api/records/1.0/search/?dataset=stations-velib-disponibilites-en-temps-reel&q=20+Rue+Guillaume+Bertrand&facet=banking&facet=bonus&facet=status&facet=contract_name
     private static final String ENDPOINT_DIST = "https://opendata.paris.fr/api/records/1.0";

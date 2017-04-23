@@ -32,6 +32,8 @@ import com.google.android.gms.maps.model.MarkerOptions;
  * Activities that contain this fragment must implement the
  * {@link MapTileFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
+ * https://blog.rolandl.fr/2016-08-27-integrer-et-utiliser-une-carte-google-dans-une-application-android-7-slash-7-les-markers-et-les-infos-windows.html
+ * 
  */
 public class MapTileFragment extends Fragment implements OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks,
@@ -109,7 +111,6 @@ public class MapTileFragment extends Fragment implements OnMapReadyCallback,
         if(!googleMap.isMyLocationEnabled()){
             Log.e("Test","probleme");
         }
-
     }
 
     void setMarkerAtPosition(double latitude, double longitude,String title){
@@ -117,6 +118,12 @@ public class MapTileFragment extends Fragment implements OnMapReadyCallback,
         if(googleMap!=null){
             googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude),10));
             googleMap.addMarker(marker);
+        }
+    }
+
+    void clearMap(){
+        if(googleMap!=null){
+            googleMap.clear();
         }
     }
 

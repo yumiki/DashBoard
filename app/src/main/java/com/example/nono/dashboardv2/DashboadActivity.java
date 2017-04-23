@@ -34,9 +34,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import rx.Observable;
 
+import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -53,18 +55,24 @@ public class DashboadActivity extends AppCompatActivity implements MapTileFragme
     TextView tempTv;
     TextView cityTv;
     ImageView iconWeather;
+    Toolbar toolbar;
+    private Subscription mTimerSub;
+    TextView hourTvTile;
+    TextView dateTvTile;
+    Calendar calendar;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_dashboad);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setContentView(R.layout.activity_dashboad); //https://developer.android.com/training/basics/supporting-devices/screens.html#create-bitmaps
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         velibTile = findViewById(R.id.velibTile);
         meteoTile = findViewById(R.id.meteoTile);
         hourTile = findViewById(R.id.hourTile);
         RecyclerView velibStationView = (RecyclerView) velibTile.findViewById(R.id.velibRv);
 
-        toolbar.setTitle("My Paris");
+        toolbar.setTitle("My City");
         renewVelibButton = (ImageView) velibTile.findViewById(R.id.renewVelib);
 
         stationsData = new ArrayList<>();
@@ -94,13 +102,12 @@ public class DashboadActivity extends AppCompatActivity implements MapTileFragme
         });
 
 
-        TextView hourTvTile = (TextView) hourTile.findViewById(R.id.tvHour);
-        TextView dateTvTile = (TextView) hourTile.findViewById(R.id.tvDate);
+        hourTvTile = (TextView) hourTile.findViewById(R.id.tvHour);
+        dateTvTile = (TextView) hourTile.findViewById(R.id.tvDate);
 
-        Calendar calendar = Calendar.getInstance();
+        calendar = Calendar.getInstance();
 
-        hourTvTile.setText(calendar.get(Calendar.HOUR) + ":" + calendar.get(Calendar.MINUTE));
-        dateTvTile.setText(calendar.get(Calendar.DAY_OF_MONTH) + " " + calendar.get(Calendar.MONTH) + " " + calendar.get(Calendar.YEAR));
+        updateHourTile();
 
         iconWeather = (ImageView) meteoTile.findViewById(R.id.iconWeather);
         tempTv = (TextView) meteoTile.findViewById(R.id.temp);
@@ -112,6 +119,9 @@ public class DashboadActivity extends AppCompatActivity implements MapTileFragme
             updateMeteo();
             Snackbar.make(velibTile, "Update Meteo", Snackbar.LENGTH_SHORT).show();
         });
+
+
+
 
         //gridLayout.setOrientation(GridLayout.HORIZONTAL);
 
@@ -125,42 +135,6 @@ public class DashboadActivity extends AppCompatActivity implements MapTileFragme
     @Override
     public void onResume() {
         super.onResume();
-        /*
-        ApiManager.apiManagerDist.getVelib(
-                "stations-velib-disponibilites-en-temps-reel",
-                "20 Rue Guillaume Bertrand",
-                Arrays.asList("banking", "bonus", "status", "contract_name"))
-                .flatMap(velib -> {
-                    Velib.Field fields = velib.getRecords().get(0).getFields();
-                    Velib.Station station = new Velib.Station(fields);
-                    return Observable.just(station);
-                })
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        station -> {//TODO
-                            Log.d("Custom", "On nextO1");
-                            Log.d("Custom", station.getAddress());
-                            Log.d("Custom", "jkl");
-                            //Snackbar.make(velibTile,"Connexion OK",Snackbar.LENGTH_INDEFINITE).show();
-                            //textView.setText(velib.getRecords().get(0).getDatasetid());
-                            stationsData.add(station);
-                            stationAdapter.notifyDataSetChanged();
-                            if (frag != null)
-                                frag.setMarkerAtPosition(station.getPosition().get(0), station.getPosition().get(1),"Velib");
-
-                        },
-                        throwable -> {
-                            throwable.printStackTrace();
-                            Snackbar.make(velibTile, "Il y a un problème ", Snackbar.LENGTH_INDEFINITE)
-                                    //.setAction("Register",view -> toNextTheActivity(login,password,SignupActivity.class))
-                                    .show();
-                            if (throwable.getMessage().contains("400"))
-                                Snackbar.make(velibTile, "Vous n'avez peut être pas de compte", Snackbar.LENGTH_INDEFINITE)
-                                        //.setAction("Register",view -> toNextTheActivity(login,password,SignupActivity.class))
-                                        .show();
-                        });
-                        */
 
         //Obtention de la référence du service
         locationManager = (LocationManager) this.getSystemService(LOCATION_SERVICE);
@@ -184,6 +158,17 @@ public class DashboadActivity extends AppCompatActivity implements MapTileFragme
         if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             abonnementGPS();
         }
+
+        mTimerSub = Observable.timer(5, TimeUnit.SECONDS)
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribeOn(Schedulers.io())
+                    .repeat()
+                    .subscribe(aLong -> {
+                        Log.e("Hour","1Hour");
+                        updateHourTile();
+                         //if(homepageActivity!=null)
+                        //    homepageActivity.updateTabVisibility(View.GONE);
+                    },Throwable::printStackTrace);
     }
 
     @Override
@@ -192,6 +177,10 @@ public class DashboadActivity extends AppCompatActivity implements MapTileFragme
 
         //On appelle la méthode pour se désabonner
         desabonnementGPS();
+
+        if (mTimerSub != null && !mTimerSub.isUnsubscribed()) {
+            mTimerSub.unsubscribe();
+        }
     }
 
     /**
@@ -209,7 +198,7 @@ public class DashboadActivity extends AppCompatActivity implements MapTileFragme
             // for ActivityCompat#requestPermissions for more details.
             return;
         }
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 10, this);
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 100, this);
 
     }
 
@@ -259,21 +248,38 @@ public class DashboadActivity extends AppCompatActivity implements MapTileFragme
     }
 
     private void updateMeteo() {
-        ApiManager.apiMeteo.getCityMeteo("paris")
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe(meteo -> {
-                            tempTv.setText(meteo.getCurrentCondition().getTmp() + " °C");
-                            cityTv.setText(meteo.getCityInfo().getName() + " - IDF ");
-                            Picasso.with(getBaseContext())
-                                    .load(meteo.getCurrentCondition().getIconUrl())
-                                    .fit()
-                                    .into(iconWeather);
-                            Log.e("Ludo", meteo.getCurrentCondition().getIconUrl());
-                        },
-                        throwable -> {
-                            Snackbar.make(velibTile, throwable.getMessage(), Snackbar.LENGTH_SHORT).show();
-                        });
+        if(location==null)
+            ApiManager.apiMeteo.getCityMeteo("paris")
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribeOn(Schedulers.io())
+                    .subscribe(meteo -> {
+                                tempTv.setText(meteo.getCurrentCondition().getTmp() + " °C");
+                                cityTv.setText(meteo.getCityInfo().getName() + " - IDF ");
+                                Picasso.with(getBaseContext())
+                                        .load(meteo.getCurrentCondition().getIconUrl())
+                                        .fit()
+                                        .into(iconWeather);
+                                Log.e("Ludo", meteo.getCurrentCondition().getIconUrl());
+                            },
+                            throwable -> {
+                                Snackbar.make(velibTile, throwable.getMessage(), Snackbar.LENGTH_SHORT).show();
+                            });
+        else
+            ApiManager.apiMeteo.getLocationMeteo(String.valueOf(location.getLatitude()),String.valueOf(location.getLongitude()))
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribeOn(Schedulers.io())
+                    .subscribe(meteo -> {
+                                tempTv.setText(meteo.getCurrentCondition().getTmp() + " °C");
+                                cityTv.setText(meteo.getCityInfo().getName() + " - IDF ");
+                                Picasso.with(getBaseContext())
+                                        .load(meteo.getCurrentCondition().getIconUrl())
+                                        .fit()
+                                        .into(iconWeather);
+                                Log.e("Ludo", meteo.getCurrentCondition().getIconUrl());
+                            },
+                            throwable -> {
+                                Snackbar.make(velibTile, throwable.getMessage(), Snackbar.LENGTH_SHORT).show();
+                            });
     }
 
     public void updateVelib() {
@@ -322,5 +328,10 @@ public class DashboadActivity extends AppCompatActivity implements MapTileFragme
                                 stationAdapter.notifyDataSetChanged();
                             });
         }
+    }
+
+    public void updateHourTile(){
+        hourTvTile.setText(calendar.get(Calendar.HOUR) + ":" + calendar.get(Calendar.MINUTE));
+        dateTvTile.setText(calendar.get(Calendar.DAY_OF_MONTH) + " " + calendar.get(Calendar.MONTH) + " " + calendar.get(Calendar.YEAR));
     }
 }
